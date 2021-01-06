@@ -1,0 +1,76 @@
+﻿@page
+@model Iurec_Alexandra_ProiectV2.Pages.Contracts.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Contract</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Contract.ID" />
+            <div class="form-group">
+                <label asp-for="Contract.Title" class="control-label"></label>
+                <input asp-for="Contract.Title" class="form-control" />
+                <span asp-validation-for="Contract.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contract.Beneficiary" class="control-label"></label>
+                <input asp-for="Contract.Beneficiary" class="form-control" />
+                <span asp-validation-for="Contract.Beneficiary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contract.SigningDate" class="control-label"></label>
+                <input asp-for="Contract.SigningDate" class="form-control" />
+                <span asp-validation-for="Contract.SigningDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contract.OurServiceID" class="control-label">Service Name</label>
+                <select asp-for="Contract.OurServiceID" class="form-control" asp-items="ViewBag.OurServiceID">
+                </select>
+                <span asp-validation-for="Contract.OurServiceID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="table">
+                    <table>
+                        <tr>
+                            @{
+                                int cnt = 0;
+                                foreach (var emp in Model.AssignedEmployeeDataList)
+                                {
+                                    if (cnt++ % 3 == 0)
+                                    {
+                                    @:</tr><tr>
+                                    }
+                                    @:<td>
+                                        <input type="checkbox"
+                                               name="selectedEmployees"
+                                               value="@emp.EmployeeID"
+                                               @(Html.Raw(emp.Assigned ? "checked=\"checked\"" : "")) />
+                                        @emp.EmployeeID @: @emp.Name
+                                    @:</td>
+                                }
+                            @:</tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+</div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
